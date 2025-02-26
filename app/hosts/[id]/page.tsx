@@ -23,8 +23,7 @@ const HostDetailsPage=()=>{
                 </aside>
                 <div className="col-span-1 md:col-span-3 pl-0 md:pl-6">
                     <div className="grid grid-cos-1 md:grid-cols-3 gap-6">
-                      <PropertyList
-                      />
+                      <PropertyList/>
                     </div>
                 </div>
             </div>
