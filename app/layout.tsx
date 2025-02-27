@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import LoginModal from "./components/modals/LoginModal";
 import Modal from "./components/modals/Modal";
 import Navbar from "./components/navbar/Navbar";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         <div className="pt-24 md:pt-28 lg:pt-32">
           {children}
         </div>
+        <LoginModal/>
       </body>
     </html>
   );
