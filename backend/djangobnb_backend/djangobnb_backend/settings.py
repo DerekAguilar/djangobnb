@@ -24,13 +24,13 @@ SITE_ID=1
 WEBSITE_URL='http://localhost:8000'
 
 SIMPLE_JWT={
-    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME':timedelta(days=7),
-    'ROTATE_REFRESH_TOKEN':False,
-    'BLACKLIST_AFTER_ROTATION':False,
-    'UPDATE_LAST_LOGIN':True,
-    'SIGNING_KEY':'acomplexkey',
-    'ALGORITHM':'HS512',
+    "ACCESS_TOKEN_LIFETIME":timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME":timedelta(days=7),
+    "ROTATE_REFRESH_TOKEN":False,
+    "BLACKLIST_AFTER_ROTATION":False,
+    "UPDATE_LAST_LOGIN":True,
+    "SIGNING_KEY":"acomplexkey",
+    "ALGORITHM":"HS512",
 }
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD=None
@@ -73,6 +73,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+
+    'allauth',
     'allauth.account',
     
     'dj_rest_auth',
