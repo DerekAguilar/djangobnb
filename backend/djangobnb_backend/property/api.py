@@ -11,6 +11,13 @@ from .serializers import PropertiesListSerializer,PropertiesDetailsSerializer,Re
 @permission_classes([])
 def properties_list(request):
     properties=Property.objects.all()
+
+    # Filtrar por anfitrión
+    host_id=request.GET.get('host_id','')
+    if host_id:
+        properties=properties.filter(host_id=host_id)
+    #
+
     serializer=PropertiesListSerializer(properties,many=True)
 
     return JsonResponse({
