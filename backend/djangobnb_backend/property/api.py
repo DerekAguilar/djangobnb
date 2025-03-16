@@ -27,10 +27,14 @@ def properties_list(request):
     favorites=[]
     properties=Property.objects.all()
 
-    # Filtrar por anfitrión
+    # Filtros
+    is_favorites=request.GET.get('is_favorites','')
     host_id=request.GET.get('host_id','')
     if host_id:
         properties=properties.filter(host_id=host_id)
+
+    if is_favorites:
+        properties=properties.filter(favorited__in=[user])
     #
 
     # Favoritos
