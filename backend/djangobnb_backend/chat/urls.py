@@ -3,4 +3,5 @@ from . import api
 
 urlpatterns=[
     path('',api.conversations_list,name='api_conversations_list'),
+    path('<uuid:pk>/',api.conversations_details,name='api_conversations_details'),
 ]

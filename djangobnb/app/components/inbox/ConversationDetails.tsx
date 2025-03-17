@@ -1,7 +1,34 @@
 'use client'; //Algunas funciones como onCLick no están permitidas en el formato por defecto (servidor) de un componente, así que se llama esto para usar como cliente
-import CustomButton from "../forms/CustomButton";
 
-const ConversationDetails=()=>{
+import useWebSocket,{ReadyState} from "react-use-websocket";
+import CustomButton from "../forms/CustomButton";
+import { ConversationType } from "@/app/inbox/page";
+import { useEffect } from "react";
+
+interface ConversationDetailsProps {
+    conversation:ConversationType;
+    token:string;
+    userId:string;
+}
+
+const ConversationDetails:React.FC<ConversationDetailsProps>=({
+    conversation,
+    token,
+    userId
+})=>{
+    const myUser=conversation.users?.find((user)=>user.id==userId);
+    const otherUser=conversation.users?.find((user)=>user.id!=userId);
+
+    const {sendJsonMessage,lastJsonMessage,readyState}=useWebSocket(`ws://127.0.0.1:8000/ws/${conversation.id}/?token=${token}`,{
+            share:false,
+            shouldReconnect:()=>true
+        }
+    )
+
+    useEffect(()=>{
+       console.log('Estado de conexión cambiado',readyState) 
+    },[readyState])
+
     return(
         <>
             <div className="max-h-[400px] overflow-auto flex flex-col space-y-4">
@@ -27,7 +54,7 @@ const ConversationDetails=()=>{
                 />
                 <CustomButton
                 label="Enviar"
-                onclick={()=>console.log('Clicked')}
+                onClick={()=>console.log('Clicked')}
                 className="w-[100px]"
                 />
             </div>
