@@ -34,7 +34,7 @@ const PropertyDetailPage=async ({params}:{params:{id:string}})=>{
                     >
                         {property.host.avatar_url && (
                             <Image
-                            src="{property.host.avatar_url}"
+                            src={property.host.avatar_url}
                             width={50}
                             height={50}
                             className="rounded-full"
