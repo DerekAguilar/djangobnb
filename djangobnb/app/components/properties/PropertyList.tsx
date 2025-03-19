@@ -1,8 +1,10 @@
 'use client';
 
+import {format} from "date-fns";
 import apiService from "@/app/services/apiService";
 import { useEffect,useState } from "react";
 import PropertyListItem from "./PropertyListItem";
+import useSearchModal from "@/app/hooks/useSearchModal";
 
 export type PropertyType = {
     id:string;
@@ -21,8 +23,19 @@ const PropertyList:React.FC<PropertyListProps>=({
     host_id,
     favorites
 })=>{
+    const searchModal=useSearchModal();
+    const country=searchModal.query.country;
+    const numGuests=searchModal.query.guests;
+    const numBathrooms=searchModal.query.bathrooms;
+    const numBedrooms=searchModal.query.bedrooms;
+    const checkinDate=searchModal.query.checkIn;
+    const checkoutDate=searchModal.query.checkOut;
+    const category=searchModal.query.category;
     const [properties,setProperties]=useState<PropertyType[]>([]);
     
+    console.log('searchQuery:',searchModal.query);
+    console.log('numBedrooms:',searchModal.query.bedrooms)
+
     const markFavorite=(id:string,is_favorite:boolean) => {
         const tmpProperties=properties.map((property:PropertyType) => {
             if (property.id==id) {
@@ -46,6 +59,34 @@ const PropertyList:React.FC<PropertyListProps>=({
             url+=`?host_id=${host_id}`
         } else if (favorites) {
             url+='?is_favorites=true'
+        } else {
+            let urlQuery='';
+            if(country) {
+                urlQuery+='&country='+country
+            }
+            if(numGuests) {
+                urlQuery+='&numGuests='+numGuests
+            }
+            if(numBedrooms) {
+                urlQuery+='&numBedrooms='+numBedrooms
+            }
+            if(numBathrooms) {
+                urlQuery+='&numBathrooms='+numBathrooms
+            }
+            if(category) {
+                urlQuery+='&category='+category
+            }
+            if(checkinDate) {
+                urlQuery+='&checkin='+format(checkinDate,'yyyy-MM-dd')
+            }
+            if(checkoutDate) {
+                urlQuery+='&checkout='+format(checkoutDate,'yyyy-MM-dd')
+            }
+            if (urlQuery.length) {
+                console.log('Query:',urlQuery);
+                urlQuery='?'+urlQuery.substring(1);
+                url+=urlQuery;
+            }
         }
         const tmpProperties=await apiService.get(url);
 
@@ -61,7 +102,7 @@ const PropertyList:React.FC<PropertyListProps>=({
     
     useEffect(()=>{
         getProperties();    
-    },[]);
+    },[category,searchModal.query]);
 
     return (
         <>
